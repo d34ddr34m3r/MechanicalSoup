@@ -49,7 +49,7 @@ class Form(object):
         self.input = self.set_input
         self.textarea = self.set_textarea
 
-    def set_input(self, data):
+    def set_input(self, data, attr_name='name'):
         """Fill-in a set of fields in a form.
 
         Example: filling-in a login/password form
@@ -61,10 +61,24 @@ class Form(object):
         This will find the input element named "login" and give it the
         value ``username``, and the input element named "password" and
         give it the value ``password``.
+
+
+        Specifying the attr_name.
+
+        Find a set of fields by their attribute name (name, id, class_name, etc.) and fill in with specified data.
+
+        .. code-block:: python
+
+            form.set_input({"login": username, "password": password}, attr_name="id")  # find input field by id attr
+
+        This will find the input element with the id "login" and give it the
+        value ``username``, and the input element with the id "password" and
+        give it the value ``password``.
+
         """
 
         for (name, value) in data.items():
-            i = self.form.find("input", {"name": name})
+            i = self.form.find("input", {attr_name: name})
             if not i:
                 raise InvalidFormMethod("No input field named " + name)
             i["value"] = value
