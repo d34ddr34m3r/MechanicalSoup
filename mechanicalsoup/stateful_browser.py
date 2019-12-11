@@ -94,6 +94,15 @@ class StatefulBrowser(Browser):
         """Get the verbosity level. See :func:`set_verbose()`."""
         return self.__verbose
 
+    def update_state(self, resp):
+        """Update the current browser state based on passed response.
+        :param resp:
+        :return:
+        """
+        page = resp.soup
+        form = Form(page.find('form'))
+        self.__state = _BrowserState(page=page, url=resp.url, form=form, request=resp.request)
+
     @property
     def page(self):
         """Get the current page as a soup object."""
